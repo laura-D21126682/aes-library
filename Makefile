@@ -3,11 +3,11 @@ CC ?= cc
 .PHONY: all
 all: main rijndael.so
 
-main: rijndael.o aes/main.c
-	$(CC) -o main aes/main.c rijndael.o
+main: rijndael.o c-aes/main.c
+	$(CC) -o main c-aes/main.c rijndael.o
 
-rijndael.o: aes/rijndael.c aes/rijndael.h
-	$(CC) -o rijndael.o -fPIC -c aes/rijndael.c
+rijndael.o: c-aes/rijndael.c c-aes/rijndael.h
+	$(CC) -o rijndael.o -fPIC -c c-aes/rijndael.c
 
 rijndael.so: rijndael.o
 	$(CC) -o rijndael.so -shared rijndael.o
