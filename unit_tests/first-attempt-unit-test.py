@@ -1,6 +1,6 @@
 from ctypes import *
 
-so_file = "multiplyByThree.so"
+so_file = "unit_tests/multiplyByThree.so"
 
 function_test = CDLL(so_file)
 
