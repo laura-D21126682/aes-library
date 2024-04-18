@@ -1,6 +1,6 @@
 from ctypes import *
 
-so_file = "/home/runner/work/aes-library/aes-library/unit_tests/multiplyByThree.so"
+so_file = "./unit_tests/multiplyByThree.so"
 
 function_test = CDLL(so_file)
 
