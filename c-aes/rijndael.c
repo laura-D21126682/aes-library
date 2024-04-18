@@ -8,6 +8,11 @@
 
 #include "rijndael.h"
 
+// calling through ctypes test
+int multiplyByThree(int num) { 
+  return num * 3;
+}
+
 /*
  * Operations used when encrypting a block
  */
