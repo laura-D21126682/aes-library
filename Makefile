@@ -11,7 +11,10 @@ rijndael.o: c-aes/rijndael.c c-aes/rijndael.h
 
 rijndael.so: rijndael.o
 	$(CC) -o rijndael.so -shared rijndael.o
+	python3 unit-tests/aes-tests.py
 
 clean:
+	@echo "Cleaning up....."
 	rm -f *.o *.so
 	rm -f main
+	@echo "Cleaned up!"
