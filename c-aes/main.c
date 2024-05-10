@@ -6,7 +6,7 @@
 void print_128bit_block(unsigned char *block) {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      unsigned char value = BLOCK_ACCESS(block, i, j);
+      unsigned char value = BLOCK_ACCESS_ROW(block, i, j);
 
       // Print spaces before small numbers to ensure that everything is aligned
       // and looks nice

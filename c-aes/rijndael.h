@@ -6,7 +6,8 @@
 #ifndef RIJNDAEL_H
 #define RIJNDAEL_H
 
-#define BLOCK_ACCESS(block, row, col) (block[(row * 4) + col])
+#define BLOCK_ACCESS_ROW(block, row, col) (block[(row * 4) + col])
+#define BLOCK_ACCESS_COL(block, col, row) (block[(row * 4) + col])
 #define BLOCK_SIZE 16
 
 /*
