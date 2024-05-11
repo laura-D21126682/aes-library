@@ -15,9 +15,9 @@ print("abs path here: +++++++++++++++++++++++++++++++++++", os.path.abspath(__fi
 # from python_aes.aes import aes as aes_python
 
 #python_aes_path = os.path.join(os.path.dirname(__file__), '..', 'python-aes')
-python_aes_path = sys.path
+python_aes_path = Path(__file__).resolve().parent
 
-sys.path.append(python_aes_path)
+#sys.path.append(python_aes_path)
 
 print("abs path here: +++++++++++++++++++++++++++++++++++", python_aes_path)
 
