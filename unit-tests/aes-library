@@ -1,0 +1,30 @@
+aes-library
+├── .clang-format
+├── .github
+│   └── workflows
+│       └── build.yml
+├── .gitignore
+├── .gitmodules
+├── Makefile
+├── README.md
+├── c-aes
+│   ├── main.c
+│   ├── rijndael.c
+│   └── rijndael.h
+├── main
+├── python-aes
+│   ├── .git
+│   ├── .gitignore
+│   ├── README.md
+│   ├── __pycache__
+│   │   ├── aes-128-bit-c
+│   │   ├── aes.cpython-310.pyc
+│   │   └── tests.cpython-310.pyc
+│   ├── aes.py
+│   └── tests.py
+├── rijndael.o
+├── rijndael.so
+└── unit-tests
+    ├── aes-tests.py
+    ├── aes-tests_deprecated.py
+    └── ctypes-test.py

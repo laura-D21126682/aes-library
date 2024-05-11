@@ -10,6 +10,8 @@ python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
 sys.path.append(str(python_aes_path))
 import aes as aes_python
 
+# print("abs path here: +++++++++++++++++++++++++++++++++++", os.path.abspath(__file__))
+
 # Path for .so file (shared object)
 base_path = Path(__file__).resolve().parent
 so_file = base_path / '../rijndael.so'
