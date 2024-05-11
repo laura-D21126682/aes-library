@@ -85,7 +85,7 @@ class TestAESMethods(unittest.TestCase):
     buffers = random_buffer_generator()
     test_results = []
     for buffer in buffers:
-      # transform buffers
+      # Transform buffers
       c_buffer = create_string_buffer(buffer, 16).raw; 
       py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)]
 
@@ -93,7 +93,7 @@ class TestAESMethods(unittest.TestCase):
       aes_c.shift_rows(c_buffer)
       aes_python.shift_rows(py_buffer)
 
-      # transform results for unit test
+      # Transform results for unit test
       c_result = list(c_buffer) 
       py_result = sum(py_buffer, [])
 
@@ -110,7 +110,7 @@ class TestAESMethods(unittest.TestCase):
     buffers = random_buffer_generator()
     test_results = []
     for buffer in buffers:
-      # transform buffers
+      # Transform buffers
       c_buffer = create_string_buffer(buffer, 16).raw;
       py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)] 
       
@@ -118,7 +118,7 @@ class TestAESMethods(unittest.TestCase):
       aes_c.invert_shift_rows(c_buffer)
       aes_python.inv_shift_rows(py_buffer)
 
-      # transform results for unit test
+      # Transform results for unit test
       c_result = list(c_buffer) 
       py_result = sum(py_buffer, []) 
 
@@ -135,7 +135,7 @@ class TestAESMethods(unittest.TestCase):
     test_results = []
     buffers = random_buffer_generator()
     for buffer in buffers:
-      # transform buffers
+      # Transform buffers
       c_buffer = create_string_buffer(buffer, 16).raw;
       py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)]
 
@@ -143,7 +143,7 @@ class TestAESMethods(unittest.TestCase):
       aes_c.mix_columns(c_buffer)
       aes_python.mix_columns(py_buffer)
 
-      # transform results for unit test
+      # Transform results for unit test
       c_result = list(c_buffer)
       py_result = sum(py_buffer, [])
 
@@ -160,7 +160,7 @@ class TestAESMethods(unittest.TestCase):
     buffers = random_buffer_generator()
     test_results = []
     for buffer in buffers:
-      # transform buffers
+      # Transform buffers
       c_buffer = create_string_buffer(buffer, 16).raw;
       py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)]
 
@@ -168,7 +168,7 @@ class TestAESMethods(unittest.TestCase):
       aes_c.invert_mix_columns(c_buffer)
       aes_python.inv_mix_columns(py_buffer)
 
-      # transform results for unit test
+      # Transform results for unit test
       c_result = list(c_buffer)
       py_result = sum(py_buffer, [])
 
@@ -177,6 +177,41 @@ class TestAESMethods(unittest.TestCase):
     
     print("Test Restults: ", test_results)
 
+  '''
+  Add Round Key Unit Tests
+  '''
+  def test_add_round_key(self):
+    buffers = random_buffer_generator()
+    keys = random_buffer_generator()
+
+    test_results = []
+    for buffer, key in zip(buffers, keys):
+
+      # Transform buffers
+      c_buffer = create_string_buffer(buffer, 16).raw;
+      py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)]
+      print('c buffer: ', c_buffer)
+      print('py buffer: ', py_buffer)
+
+      # Transform round keys
+      c_key = create_string_buffer(key, 16).raw;
+      py_key = [list(key[i * 4:(i + 1) * 4]) for i in range(4)]
+      print('c key: ', c_key)
+      print('py key: ', py_key)
+
+      # Call add_round_keys
+      aes_c.add_round_key(c_buffer, c_key)
+      aes_python.add_round_key(py_buffer, py_key)
+
+      # Transform results for unit test
+      c_result = list(c_buffer)
+      py_result = sum(py_buffer, [])
+
+      print('c result: ', c_result)
+      print('py result: ', py_result)
+
+      test_results.append((c_result == py_result))
+      self.assertEqual(c_result, py_result, "C and Python results should be the same")
 
 
 if __name__ == '__main__':

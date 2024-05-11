@@ -190,7 +190,7 @@ const unsigned char mul14[256] = {
 void sub_bytes(unsigned char *block) {
   int i; 
   // Loops over each byte in 16-byte block
-  for (i = 0; i < 16; i++) {
+  for (i = 0; i < BLOCK_SIZE; i++) {
     // Replace each block value with new s_box value 
     block[i] = s_box[block[i]]; // current block = value of s_box[current bock]
   }
@@ -319,9 +319,13 @@ void invert_mix_columns(unsigned char *block) {
  * This operation is shared between encryption and decryption
  */
 void add_round_key(unsigned char *block, unsigned char *round_key) {
-  // TODO: Implement me!
+  int i;
+  // Loops over each byte in the 16-byte block
+  for (i = 0; i < BLOCK_SIZE; i++) {
+    // each block byte is XORed with the corresponding round key byte
+    block[i] ^= round_key[i]; 
 }
-
+}
 /*
  * This function should expand the round key. Given an input,
  * which is a single 128-bit key, it should return a 176-byte
