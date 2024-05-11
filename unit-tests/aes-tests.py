@@ -128,30 +128,29 @@ class TestAESMethods(unittest.TestCase):
     print("Test Restults: ", test_results)
 
   
-  # '''
-  # Mix-Columns Unit Tests
-  # '''
-  # def test_mix_columns(self):
-  #   test_results = []
-  #   buffers = random_buffer_generator()
-  #   for buffer in buffers:
-  #     # Convert buffer to C and Python expected formats
-  #     c_buffer = create_string_buffer(buffer, 16).raw; # C expects 16 byte flat array
-  #     py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)] # Python expects 4*4 matrix
+  '''
+  Mix-Columns Unit Tests
+  '''
+  def test_mix_columns(self):
+    test_results = []
+    buffers = random_buffer_generator()
+    for buffer in buffers:
+      # transform buffers
+      c_buffer = create_string_buffer(buffer, 16).raw;
+      py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)]
 
-  #     # Call mix_columns functions
-  #     aes_c.mix_columns(c_buffer)
-  #     aes_python.mix_columns(py_buffer)
+      # Call mix_columns
+      aes_c.mix_columns(c_buffer)
+      aes_python.mix_columns(py_buffer)
 
-  #     # Convert results data types for unit test comparisonn
-  #     c_result = list(c_buffer) # converts to python list
-  #     py_result = sum(py_buffer, []) # flattens 4*4 matrix to python list
+      # transform results for unit test
+      c_result = list(c_buffer)
+      py_result = sum(py_buffer, [])
 
-  #     test_results.append((c_result == py_result))
-
-  #     self.assertEqual(c_result, py_result, "C and Python results should be the same")
+      test_results.append((c_result == py_result))
+      self.assertEqual(c_result, py_result, "C and Python results should be the same")
       
-  #     print("Test Restults: ", test_results)
+      print("Test Restults: ", test_results)
 
 
   # '''
