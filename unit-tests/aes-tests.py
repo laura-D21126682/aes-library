@@ -6,13 +6,15 @@ import os
 import secrets
 
 #Path for AES python submodule  
-python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
-sys.path.append(str(python_aes_path))
+# python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
+# sys.path.append(str(python_aes_path))
 
 print("abs path here: +++++++++++++++++++++++++++++++++++", os.path.abspath(__file__))
 
 # sys.path.append(os.path.abspath(os.path.join('..', 'python_aes')))
 # from python_aes.aes import aes as aes_python
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python-aes'))
 
 import aes as aes_python
 
