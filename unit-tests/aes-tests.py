@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 import os
 import secrets
+import importlib.util
 
 #Path for AES python submodule  
 # python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
@@ -21,7 +22,21 @@ python_aes_path = Path(__file__).resolve().parent
 
 print("abs path here: +++++++++++++++++++++++++++++++++++", python_aes_path)
 
-import aes as aes_python
+#from ..python_aes import aes as aes_python
+
+
+
+module_name = 'aes'
+file_path = Path(__file__).resolve().parent.parent / 'python_aes' / 'aes.py'
+
+spec = importlib.util.spec_from_file_location(module_name, str(file_path))
+aes_python = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(aes_python)
+
+
+
+
+
 
 
 
