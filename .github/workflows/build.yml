@@ -23,7 +23,7 @@ jobs:
           make unitests
       
       - name: Clean up
-          run: |
-            make clean
+        run: |
+          make clean
 
           
