@@ -1,7 +1,7 @@
 CC ?= cc
 
-.PHONY: all 
-all: main rijndael.so unitests clean
+.PHONY: all unitests clean
+all: main rijndael.so 
 
 main: rijndael.o c-aes/main.c
 	$(CC) -o main c-aes/main.c rijndael.o

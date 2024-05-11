@@ -48,7 +48,6 @@ class TestAESMethods(unittest.TestCase):
       py_result = sum(py_buffer, []) # flattens 4*4 matrix to python list
 
       test_results.append((c_result == py_result))
-
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
     print("Test Restults: ", test_results)

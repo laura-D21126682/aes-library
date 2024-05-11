@@ -18,8 +18,12 @@ jobs:
         run: |
           make all
 
-      # - name: Run unit tests
-      #   run: |
-      #     make unitest
+      - name: Run unit tests
+        run: |
+          make unitests
+      
+      - name: Clean up
+          run: |
+            make clean
 
           
