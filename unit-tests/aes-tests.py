@@ -52,30 +52,30 @@ class TestAESMethods(unittest.TestCase):
     
     print("Test Restults: ", test_results)
 
-  # '''
-  # Invert Sub-Bytes Unit Tests
-  # '''
-  # def test_invert_sub_bytes(self):
-  #   buffers = random_buffer_generator()
-  #   test_results = []
-  #   for buffer in buffers:
-  #     # Convert buffer to C and Python expected formats
-  #     c_buffer = create_string_buffer(buffer, 16).raw; # C expects 16 byte flat array
-  #     py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)] # Python expects 4*4 matrix
+  '''
+  Invert Sub-Bytes Unit Tests
+  '''
+  def test_invert_sub_bytes(self):
+    buffers = random_buffer_generator()
+    test_results = []
+    for buffer in buffers:
+      # Convert buffer to C and Python expected formats
+      c_buffer = create_string_buffer(buffer, 16).raw; # C expects 16 byte flat array
+      py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)] # Python expects 4*4 matrix
       
-  #     # Call invert sub-byte functions
-  #     aes_c.invert_sub_bytes(c_buffer)
-  #     aes_python.inv_sub_bytes(py_buffer)
+      # Call invert sub-byte functions
+      aes_c.invert_sub_bytes(c_buffer)
+      aes_python.inv_sub_bytes(py_buffer)
 
-  #     # Convert results for unit test comparison
-  #     c_result = list(c_buffer) # converts to python list
-  #     py_result = sum(py_buffer, []) # flattens 4*4 matrix to python list
+      # Convert results for unit test comparison
+      c_result = list(c_buffer) # converts to python list
+      py_result = sum(py_buffer, []) # flattens 4*4 matrix to python list
 
-  #     test_results.append((c_result == py_result))
+      test_results.append((c_result == py_result))
 
-  #     self.assertEqual(c_result, py_result, "C and Python results should be the same")
+      self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-  #   print("Test Restults: ", test_results)
+    print("Test Restults: ", test_results)
 
 
   # '''
