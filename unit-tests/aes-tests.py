@@ -7,24 +7,11 @@ import secrets
 import importlib.util
 
 
-# Github aes_python path test
-cur_file_path = Path(__file__).resolve()
-print("cur_file_path: ", cur_file_path)
-# github actions path error: /home/runner/work/aes-library/aes-library/unit-tests/aes-tests.py"
-root_dir = cur_file_path.parents[2]
-print("root_dir: ", root_dir)
-python_aes_path = root_dir / 'python-aes'
-print("python_aes_path: ", python_aes_path)
+# Path for AES python submodule  
+python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
+python_aes_path = python_aes_path.resolve().absolute()
 sys.path.append(str(python_aes_path))
-print("sys.path.append(): ", sys.path.append(str(python_aes_path)))
 import aes as aes_python
-
-# # Path for AES python submodule  
-# python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
-# python_aes_path = python_aes_path.resolve().absolute()
-# sys.path.append(str(python_aes_path))
-# import aes as aes_python
-
 
 # Path for .so file (shared object)
 base_path = Path(__file__).resolve().parent

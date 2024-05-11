@@ -6,8 +6,20 @@ jobs:
     steps:
       - name: Clone the repo
         uses: actions/checkout@v4
-      - name: Build the code
+        with:
+          submodules: true # checkouts submodule 'python-aes'
+
+      - name: Install dependencies
         run: |
+          sudo apt update
           sudo apt install -y build-essential python-is-python3
-          make
+      
+      - name: Build C files
+        run: |
+          make all
+
+      # - name: Run unit tests
+      #   run: |
+      #     make unitest
+
           
