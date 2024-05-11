@@ -10,28 +10,28 @@ import importlib.util
 # python_aes_path = Path(__file__).resolve().parent.parent / 'python-aes'
 # sys.path.append(str(python_aes_path))
 
-print("abs path here: +++++++++++++++++++++++++++++++++++", os.path.abspath(__file__))
+# print("abs path here: +++++++++++++++++++++++++++++++++++", os.path.abspath(__file__))
 
-# sys.path.append(os.path.abspath(os.path.join('..', 'python_aes')))
-# from python_aes.aes import aes as aes_python
+# # sys.path.append(os.path.abspath(os.path.join('..', 'python_aes')))
+# # from python_aes.aes import aes as aes_python
 
-#python_aes_path = os.path.join(os.path.dirname(__file__), '..', 'python-aes')
-python_aes_path = Path(__file__).resolve().parent
+# #python_aes_path = os.path.join(os.path.dirname(__file__), '..', 'python-aes')
+# python_aes_path = Path(__file__).resolve().parent
 
-#sys.path.append(python_aes_path)
+# #sys.path.append(python_aes_path)
 
-print("abs path here: +++++++++++++++++++++++++++++++++++", python_aes_path)
+# print("abs path here: +++++++++++++++++++++++++++++++++++", python_aes_path)
 
 #from ..python_aes import aes as aes_python
 
+import aes as aes_python
 
+# module_name = 'aes'
+# file_path = Path(__file__).resolve().parent.parent / 'python_aes' / 'aes.py'
 
-module_name = 'aes'
-file_path = Path(__file__).resolve().parent.parent / 'python_aes' / 'aes.py'
-
-spec = importlib.util.spec_from_file_location(module_name, str(file_path))
-aes_python = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(aes_python)
+# spec = importlib.util.spec_from_file_location(module_name, str(file_path))
+# aes_python = importlib.util.module_from_spec(spec)
+# spec.loader.exec_module(aes_python)
 
 
 
