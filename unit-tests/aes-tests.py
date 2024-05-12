@@ -190,14 +190,10 @@ class TestAESMethods(unittest.TestCase):
       # Transform buffers
       c_buffer = create_string_buffer(buffer, 16).raw;
       py_buffer = [list(buffer[i * 4:(i + 1) * 4]) for i in range(4)]
-      print('c buffer: ', c_buffer)
-      print('py buffer: ', py_buffer)
 
       # Transform round keys
       c_key = create_string_buffer(key, 16).raw;
       py_key = [list(key[i * 4:(i + 1) * 4]) for i in range(4)]
-      print('c key: ', c_key)
-      print('py key: ', py_key)
 
       # Call add_round_keys
       aes_c.add_round_key(c_buffer, c_key)
@@ -207,8 +203,30 @@ class TestAESMethods(unittest.TestCase):
       c_result = list(c_buffer)
       py_result = sum(py_buffer, [])
 
-      print('c result: ', c_result)
-      print('py result: ', py_result)
+      test_results.append((c_result == py_result))
+      self.assertEqual(c_result, py_result, "C and Python results should be the same")
+
+  '''
+  Expand Key Unit Tests
+  '''
+  def test_expand_key(self):
+    keys = random_buffer_generator()
+    test_results = []
+
+    # Set C Pointers
+    aes_c.expand_key.restype = POINTER(c_ubyte * 176)
+    aes_c.expand_key.argtypes = [POINTER(c_ubyte * 16)]
+    
+    for key in keys:
+      # python setup
+      py_aes_class = aes_python.AES(key)
+      py_expand_key = py_aes_class._expand_key(key)
+      py_result = [byte for block in py_expand_key for row in block for byte in row] # conver to list for comparison
+
+      # C setup
+      c_key = (c_ubyte * 16)(*key) #transform key for C
+      c_pointer = aes_c.expand_key(byref(c_key))
+      c_result = list(c_pointer.contents) # Convert to list for comparison
 
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
