@@ -317,53 +317,53 @@ class TestAESMethods(unittest.TestCase):
     print("Test Results: ", test_results)
   
 
-  # '''
-  # AES Full Encrypt/Decrypt Process Unit Test
-  # '''
-  # def test_encrypt_decrypt(self):
-  #   plaintexts = random_buffer_generator()
-  #   keys = random_buffer_generator()
-  #   test_results = []
+  '''
+  AES Full Encrypt/Decrypt Process Unit Test
+  '''
+  def test_encrypt_decrypt(self):
+    plaintexts = random_buffer_generator()
+    keys = random_buffer_generator()
+    test_results = []
     
-  #   for plaintext, key in zip(keys, plaintexts):
-  #     # Instantiate keys
-  #     c_key = (c_ubyte * 16)(*key)
-  #     py_key = key
-  #     # Instantiate plaintext
-  #     c_plaintext = (c_ubyte * 16)(*plaintext) 
-  #     py_plaintext = plaintext
+    for plaintext, key in zip(keys, plaintexts):
+      # Instantiate keys
+      c_key = (c_ubyte * 16)(*key)
+      py_key = key
+      # Instantiate plaintext
+      c_plaintext = (c_ubyte * 16)(*plaintext) 
+      py_plaintext = plaintext
 
-  #     #AES Encryption
-  #     # Python setup
-  #     py_aes_class = aes_python.AES(py_key)
-  #     encrypted_py = py_aes_class.encrypt_block(py_plaintext) 
-  #     encrypted_py_result = list(encrypted_py) 
-  #     # C setup
-  #     encrypted_c = aes_c.aes_encrypt_block(c_plaintext, c_key) 
-  #     encrypted_c_result = list(encrypted_c.contents)
-  #     # Encryption Test
-  #     test_results.append(( encrypted_c_result == encrypted_py_result))
-  #     self.assertEqual(encrypted_c_result, encrypted_py_result, "C and Python encryption results should be the same")
+      #AES Encryption
+      # Python setup
+      py_aes_class = aes_python.AES(py_key)
+      encrypted_py = py_aes_class.encrypt_block(py_plaintext) 
+      encrypted_py_result = list(encrypted_py) 
+      # C setup
+      encrypted_c = aes_c.aes_encrypt_block(c_plaintext, c_key) 
+      encrypted_c_result = list(encrypted_c.contents)
+      # Encryption Test
+      test_results.append(( encrypted_c_result == encrypted_py_result))
+      self.assertEqual(encrypted_c_result, encrypted_py_result, "C and Python encryption results should be the same")
 
-  #     # AES Decryption 
-  #     # Python setup
-  #     decrypted_py = py_aes_class.decrypt_block(encrypted_py) # Call Py encryption with encrypted plaintext
-  #     decrypted_py_result = list(decrypted_py) 
-  #     # C setup
-  #     c_encrypted = (c_ubyte * 16)(*encrypted_c_result) # Transform for C decryption
-  #     decrypted_c = aes_c.aes_decrypt_block(c_encrypted, c_key) # Call C decryption with encrypted plaintext
-  #     decrypted_c_result = list(decrypted_c.contents) 
-  #     # Decryption Test
-  #     test_results.append((decrypted_c_result == decrypted_py_result))
-  #     self.assertEqual(decrypted_c_result, decrypted_py_result, "C and Python results should be the same")
+      # AES Decryption 
+      # Python setup
+      decrypted_py = py_aes_class.decrypt_block(encrypted_py) # Call Py encryption with encrypted plaintext
+      decrypted_py_result = list(decrypted_py) 
+      # C setup
+      c_encrypted = (c_ubyte * 16)(*encrypted_c_result) # Transform for C decryption
+      decrypted_c = aes_c.aes_decrypt_block(c_encrypted, c_key) # Call C decryption with encrypted plaintext
+      decrypted_c_result = list(decrypted_c.contents) 
+      # Decryption Test
+      test_results.append((decrypted_c_result == decrypted_py_result))
+      self.assertEqual(decrypted_c_result, decrypted_py_result, "C and Python results should be the same")
 
-  #     # Tests
-  #     test_results.append((decrypted_py_result == list(plaintext)))
-  #     test_results.append((decrypted_c_result == list(plaintext)))
-  #     self.assertEqual(decrypted_py_result, list(plaintext), "Python decryption results should be the same as the original plaintext")
-  #     self.assertEqual(decrypted_c_result, list(plaintext), "C decryption results should be the same as the original plaintext")
+      # Tests
+      test_results.append((decrypted_py_result == list(plaintext)))
+      test_results.append((decrypted_c_result == list(plaintext)))
+      self.assertEqual(decrypted_py_result, list(plaintext), "Python decryption results should be the same as the original plaintext")
+      self.assertEqual(decrypted_c_result, list(plaintext), "C decryption results should be the same as the original plaintext")
 
-  #   print("Test Results: ", test_results)
+    print("Test Results: ", test_results)
 
 if __name__ == '__main__':
   unittest.main()
