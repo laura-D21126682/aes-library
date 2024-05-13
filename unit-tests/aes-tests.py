@@ -47,7 +47,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
 
-    print("Test Results: ", test_results)
+    print("Sub-Bytes--------------Test Results: ", test_results)
 
 
   '''
@@ -73,7 +73,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Inv-Sub-Bytes----------Test Results: ", test_results)
 
 
   '''
@@ -99,7 +99,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "c and Python results should be the same")
       
-      print("Test Results: ", test_results)
+    print("Shift-Rows-------------Test Results: ", test_results)
 
 
   '''
@@ -125,7 +125,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Inv-Shift-Rows---------Test Results: ", test_results)
 
   
   '''
@@ -151,7 +151,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
       
-    print("Test Results: ", test_results)
+    print("Mix-Columns------------Test Results: ", test_results)
 
 
   '''
@@ -177,7 +177,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Inv-Mix-Cols-----------Test Results: ", test_results)
 
   '''
   Add Round Key Unit Test
@@ -207,7 +207,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Add-Round-Key----------Test Results: ", test_results)
 
   '''
   Expand Key Unit Test
@@ -238,7 +238,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Expand-Key-------------Test Results: ", test_results)
 
 
 
@@ -282,11 +282,11 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Encrypt----------------Test Results: ", test_results)
 
 
   '''
-  AES Encrypt Block Unit Test
+  AES Decrypt Block Unit Test
   '''
   def test_decrypt_block(self):
     plaintexts = random_buffer_generator()
@@ -314,7 +314,7 @@ class TestAESMethods(unittest.TestCase):
       test_results.append((c_result == py_result))
       self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-    print("Test Results: ", test_results)
+    print("Decrypt----------------Test Results: ", test_results)
   
 
   '''
@@ -342,7 +342,7 @@ class TestAESMethods(unittest.TestCase):
       encrypted_c = aes_c.aes_encrypt_block(c_plaintext, c_key) 
       encrypted_c_result = list(encrypted_c.contents)
       # Encryption Test
-      test_results.append(( encrypted_c_result == encrypted_py_result))
+      test_results.append((encrypted_c_result == encrypted_py_result))
       self.assertEqual(encrypted_c_result, encrypted_py_result, "C and Python encryption results should be the same")
 
       # AES Decryption 
@@ -363,7 +363,7 @@ class TestAESMethods(unittest.TestCase):
       self.assertEqual(decrypted_py_result, list(plaintext), "Python decryption results should be the same as the original plaintext")
       self.assertEqual(decrypted_c_result, list(plaintext), "C decryption results should be the same as the original plaintext")
 
-    print("Test Results: ", test_results)
+    print("Encrypt-Decrypt--------Test Results: ", test_results)
 
 if __name__ == '__main__':
   unittest.main()
