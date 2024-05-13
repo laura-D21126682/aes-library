@@ -285,36 +285,36 @@ class TestAESMethods(unittest.TestCase):
     print("Test Results: ", test_results)
 
 
-  # '''
-  # AES Encrypt Block Unit Test
-  # '''
-  # def test_decrypt_block(self):
-  #   plaintexts = random_buffer_generator()
-  #   keys = random_buffer_generator()
-  #   test_results = []
+  '''
+  AES Encrypt Block Unit Test
+  '''
+  def test_decrypt_block(self):
+    plaintexts = random_buffer_generator()
+    keys = random_buffer_generator()
+    test_results = []
     
-  #   for plaintext, key in zip(keys, plaintexts):
-  #     # Instantiate keys
-  #     c_key = (c_ubyte * 16)(*key)
-  #     py_key = key
-  #     # Instantiate plaintext
-  #     c_plaintext = (c_ubyte * 16)(*plaintext) 
-  #     py_plaintext = plaintext
+    for plaintext, key in zip(keys, plaintexts):
+      # Instantiate keys
+      c_key = (c_ubyte * 16)(*key)
+      py_key = key
+      # Instantiate plaintext
+      c_plaintext = (c_ubyte * 16)(*plaintext) 
+      py_plaintext = plaintext
 
-  #     # python setup
-  #     py_aes_class = aes_python.AES(key)  # Initialise Py AES Class
-  #     py_decrypt_block = py_aes_class.decrypt_block(py_plaintext) # Call Py encryption
-  #     py_result = list(py_decrypt_block) # convert to list for comparison
+      # python setup
+      py_aes_class = aes_python.AES(key)  # Initialise Py AES Class
+      py_decrypt_block = py_aes_class.decrypt_block(py_plaintext) # Call Py encryption
+      py_result = list(py_decrypt_block) # convert to list for comparison
 
-  #     # C setup
-  #     c_pointer = aes_c.aes_decrypt_block(c_plaintext, c_key) # Call C encryption
-  #     c_result = list(c_pointer.contents) # Convert to list for comparison
+      # C setup
+      c_pointer = aes_c.aes_decrypt_block(c_plaintext, c_key) # Call C encryption
+      c_result = list(c_pointer.contents) # Convert to list for comparison
 
-  #     # Tests
-  #     test_results.append((c_result == py_result))
-  #     self.assertEqual(c_result, py_result, "C and Python results should be the same")
+      # Tests
+      test_results.append((c_result == py_result))
+      self.assertEqual(c_result, py_result, "C and Python results should be the same")
     
-  #   print("Test Results: ", test_results)
+    print("Test Results: ", test_results)
   
 
   # '''
