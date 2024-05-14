@@ -22,13 +22,12 @@ Key references:
 The following is a high level description of the three main Rijndael AES encryption functions as implemented in this project:
 #### Sub-Bytes Encryption:
 - Each byte value in a block is substituted with a corresponding S-box lookup value.
-- The current byte value of the block acts as the S-Box to get the new byte value.
+- The current byte value acts as the index for S-Box to get the new byte value.
 </br></br></br>
 ![sub-bytes](/readme_images/sub-byte.png)
 </br></br></br>
 #### Shift-Rows Encryption:
 - Each byte of each row is shifted to the left (except for the first row).
-- This implmentation simplifies calculations through Galois multiplication lookup tables and XOR operations
 - First row: no shift
 - Second row: Shift left 1 position
 - Third row: Shift left 2 positions
