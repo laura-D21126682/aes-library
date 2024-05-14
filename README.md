@@ -39,6 +39,6 @@ The following is a high level description of the three main Rijndael AES encrypt
 #### Mix-Columns Encryption:
 - Transforms the matrix, column by column
 - Each byte of each column is transformed through Matrix multiplication in Rijndael's Galois field
-- This projects simplifies calculations through the use of Galois multiplication lookup tables and XOR operations
+- This project simplifies calculations through the use of Galois multiplication lookup tables and XOR operations
   </br></br></br>
 ![sub-bytes](/readme_images/mix-column.png)
