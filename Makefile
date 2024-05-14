@@ -1,6 +1,6 @@
 CC ?= cc
 
-.PHONY: all unitests clean
+.PHONY: all tests clean
 all: main rijndael.so 
 
 main: rijndael.o c-aes/main.c
@@ -12,7 +12,7 @@ rijndael.o: c-aes/rijndael.c c-aes/rijndael.h
 rijndael.so: rijndael.o
 	$(CC) -o rijndael.so -shared rijndael.o
 
-unitests:
+tests:
 	python3 unit-tests/aes-tests.py
 
 clean:

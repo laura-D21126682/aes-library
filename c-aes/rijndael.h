@@ -1,6 +1,6 @@
 /*
- * TODO: Add your name and student number here, along with
- *       a brief description of this code.
+ * Laura Fortune D21126682
+ * Rijndael 128bit AES Encryption 
  */
 
 #ifndef RIJNDAEL_H

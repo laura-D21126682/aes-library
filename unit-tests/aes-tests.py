@@ -45,7 +45,7 @@ class TestAESMethods(unittest.TestCase):
 
       # Tests
       test_results.append((c_result == py_result))
-      self.assertEqual(c_result, py_result, "C and Python results should be the same")
+      self.assertEqual(c_result, py_result, "C and Python results should be the same")   
 
     print("Sub-Bytes--------------Test Results: ", test_results)
 

@@ -20,7 +20,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          make unitests
+          make tests
       
       - name: Clean up
         run: |

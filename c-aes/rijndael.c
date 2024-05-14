@@ -1,10 +1,9 @@
 /*
- * TODO: Add your name and student number here, along with
- *       a brief description of this code.
+ * Laura Fortune D21126682
+ * Rijndael 128bit AES Encryption 
  */
 
 #include <stdlib.h>
-// TODO: Any other files you need to include should go here
 #include <stdio.h>
 #include <string.h>
 #include "rijndael.h"
@@ -53,9 +52,6 @@ const unsigned char inv_s_box[256] = {
   0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61,
   0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D,
 };
-
-// Galois Multiplication Lookup Tables
-// https://en.wikipedia.org/wiki/Rijndael_MixColumns
 
 // Mix-Columns: Multiply x 2 lookup table
 const unsigned char mul2[256] = {
@@ -177,9 +173,6 @@ const unsigned char mul14[256] = {
   0xd7,0xd9,0xcb,0xc5,0xef,0xe1,0xf3,0xfd,0xa7,0xa9,0xbb,0xb5,0x9f,0x91,0x83,0x8d
 };
 
-/*
- * Operations used when encrypting a block
- */
 
 
 /*
@@ -187,11 +180,8 @@ const unsigned char mul14[256] = {
  * Subs each Byte value of the param *block with a corresponding s_box lookup value
  * Sbox uses the current block as its index to find the substitute value 
  */
-void sub_bytes(unsigned char *block) {
-  int i; 
-  // Loops over each byte in 16-byte block
-  for (i = 0; i < BLOCK_SIZE; i++) {
-    // Replace each block value with new s_box value 
+void sub_bytes(unsigned char *block) { 
+  for (int i = 0; i < BLOCK_SIZE; i++) {
     block[i] = s_box[block[i]]; // current block = value of s_box[current bock]
   }
 }
@@ -212,7 +202,10 @@ void sub_bytes(unsigned char *block) {
   shift_rows() and mix_columns() is passed BLOCK_ACCESS_COL
 */
 
-// This code block correctly performs a shift row: 
+/*
+* The shift_rows function shifts bytes to the left
+*   - Row 0: no shift, row 1: left shift 1 byte, row 2: left shift 2 bytes, row 3: left shift 3 bytes
+*/ 
 void shift_rows(unsigned char *block) {
   
   // Defined shif-rows - BLOCK_ACCESS(block, row, col)
@@ -231,12 +224,20 @@ void shift_rows(unsigned char *block) {
 }
 
 
-// Reference Code
-// https://www.youtube.com/watch?v=dRYHSf5A4lw
-// https://www.youtube.com/watch?v=bERjYzLqAfw
+/*
+* Mix-Columns:
+* Transforms matrix, column by column 
+* Each byte of each column is transformed through Matrix multiplication in Rijndael's Galois field
+* This implmentation simplifies calculations through Galois multiplication lookup tables and XOR operations
+* Referenced Code:
+* - https://www.youtube.com/watch?v=dRYHSf5A4lw
+* - https://www.youtube.com/watch?v=bERjYzLqAfw
+* - https://www.samiam.org/mix-column.html
+* - Galois Multiplication Lookup Tables Mul 2, 3: https://en.wikipedia.org/wiki/Rijndael_MixColumns
+*/
 void mix_columns(unsigned char *block) {  
-  // temporary store for transformed columns
-  unsigned char temp_matrix[4][4]; // row, col
+
+  unsigned char temp_matrix[4][4]; // temp matrix store
 
   // Transform matrix - column by column
   for (int i = 0; i < 4; i++) {
@@ -246,10 +247,10 @@ void mix_columns(unsigned char *block) {
     unsigned char b2 = BLOCK_ACCESS_COL(block, 2, i); // byte 2
     unsigned char b3 = BLOCK_ACCESS_COL(block, 3, i); // byte 3
 
-    temp_matrix[0][i] = mul2[b0] ^ mul3[b1] ^ b2 ^ b3; // row 0  [02, 03, 01, 01]                 
-    temp_matrix[1][i] = b0 ^ mul2[b1] ^ mul3[b2] ^ b3; // row 1  [01, 02, 03, 01] 
-    temp_matrix[2][i] = b0 ^ b1 ^ mul2[b2] ^ mul3[b3]; // row 2  [01, 01, 02, 03] 
-    temp_matrix[3][i] = mul3[b0] ^ b1 ^ b2 ^ mul2[b3]; // row 3  [03, 01, 01, 02] 
+    temp_matrix[0][i] = mul2[b0] ^ mul3[b1] ^ b2 ^ b3; // (0,0)  [02, 03, 01, 01]                 
+    temp_matrix[1][i] = b0 ^ mul2[b1] ^ mul3[b2] ^ b3; // (1,0)  [01, 02, 03, 01] 
+    temp_matrix[2][i] = b0 ^ b1 ^ mul2[b2] ^ mul3[b3]; // (2,0)  [01, 01, 02, 03] 
+    temp_matrix[3][i] = mul3[b0] ^ b1 ^ b2 ^ mul2[b3]; // (3,0)  [03, 01, 01, 02] 
   }
 
   for (int col = 0; col < 4; col++) {
@@ -260,28 +261,26 @@ void mix_columns(unsigned char *block) {
 }
 
 /*
- * Sub-Bytes Decryption:
+ * Inverse Sub-Bytes:
  * Subs each Byte value of the param *block with a corresponding inv_s_box lookup value
  * inv_s_box uses the current block as its index to find the substitute value 
  */
 void invert_sub_bytes(unsigned char *block) {
-  int i; 
-  // Loops over each byte in 16-byte block
-  for (i = 0; i < 16; i++) {
-    // Replace each block value with new inv_s_box value 
+  for (int i = 0; i < 16; i++) {
     block[i] = inv_s_box[block[i]]; // current block = value of inv_s_box[current bock]
   }
 }
 
 /**
-* Shift-Rows Decryption:
+* Inverse Shift-Rows Decryption:
+* - Reverse of shift-rows
 */
 void invert_shift_rows(unsigned char *block) {
   // Defined shif-rows - BLOCK_ACCESS(block, row, col)
   unsigned char row0[4] = { BLOCK_ACCESS_COL(block, 0, 0), BLOCK_ACCESS_COL(block, 0, 1), BLOCK_ACCESS_COL(block, 0, 2), BLOCK_ACCESS_COL(block, 0, 3) }; // No change
-  unsigned char row1[4] = { BLOCK_ACCESS_COL(block, 1, 3), BLOCK_ACCESS_COL(block, 1, 0), BLOCK_ACCESS_COL(block, 1, 1), BLOCK_ACCESS_COL(block, 1, 2) }; // Shift each byte left 1 place
-  unsigned char row2[4] = { BLOCK_ACCESS_COL(block, 2, 2), BLOCK_ACCESS_COL(block, 2, 3), BLOCK_ACCESS_COL(block, 2, 0), BLOCK_ACCESS_COL(block, 2, 1) }; // Shift each byte left 2 places
-  unsigned char row3[4] = { BLOCK_ACCESS_COL(block, 3, 1), BLOCK_ACCESS_COL(block, 3, 2), BLOCK_ACCESS_COL(block, 3, 3), BLOCK_ACCESS_COL(block, 3, 0) }; // Shift each byte left 3 places
+  unsigned char row1[4] = { BLOCK_ACCESS_COL(block, 1, 3), BLOCK_ACCESS_COL(block, 1, 0), BLOCK_ACCESS_COL(block, 1, 1), BLOCK_ACCESS_COL(block, 1, 2) }; // Shift each byte right 1 place
+  unsigned char row2[4] = { BLOCK_ACCESS_COL(block, 2, 2), BLOCK_ACCESS_COL(block, 2, 3), BLOCK_ACCESS_COL(block, 2, 0), BLOCK_ACCESS_COL(block, 2, 1) }; // Shift each byte right 2 places
+  unsigned char row3[4] = { BLOCK_ACCESS_COL(block, 3, 1), BLOCK_ACCESS_COL(block, 3, 2), BLOCK_ACCESS_COL(block, 3, 3), BLOCK_ACCESS_COL(block, 3, 0) }; // Shift each byte right 3 places
 
   // Each loop updates column i of every row
   for (int i = 0; i < 4; i++) {
@@ -293,19 +292,28 @@ void invert_shift_rows(unsigned char *block) {
 }
 
 /**
-* Mix-Columns Decryption:
+* Inverse Mix-Columns:
+* - Reverse of Mix-Col
+* Transforms matrix, column by column 
+* Each byte of each column is transformed through inverse Matrix multiplication in Rijndael's Galois field
+* - Using Galois Multiplication Lookup Tables: 9,11,13,14: https://en.wikipedia.org/wiki/Rijndael_MixColumns
 */
 void invert_mix_columns(unsigned char *block) {
-  
-  // temporary store for transformed columns
-  unsigned char temp_matrix[4][4]; // row, col
+
+  unsigned char temp_matrix[4][4]; // temp matrix store
 
   // Transform matrix - column by column
   for (int i = 0; i < 4; i++) {
-    temp_matrix[0][i] = mul14[BLOCK_ACCESS_COL(block, 0, i)] ^ mul11[BLOCK_ACCESS_COL(block, 1, i)] ^ mul13[BLOCK_ACCESS_COL(block, 2, i)] ^ mul9[BLOCK_ACCESS_COL(block, 3, i)]; // row 0  [02, 03, 01, 01]                 
-    temp_matrix[1][i] = mul9[BLOCK_ACCESS_COL(block, 0, i)] ^ mul14[BLOCK_ACCESS_COL(block, 1, i)] ^ mul11[BLOCK_ACCESS_COL(block, 2, i)] ^ mul13[BLOCK_ACCESS_COL(block, 3, i)]; // row 1  [01, 02, 03, 01] 
-    temp_matrix[2][i] = mul13[BLOCK_ACCESS_COL(block, 0, i)] ^ mul9[BLOCK_ACCESS_COL(block, 1, i)] ^ mul14[BLOCK_ACCESS_COL(block, 2, i)] ^ mul11[BLOCK_ACCESS_COL(block, 3, i)]; // row 2  [01, 01, 02, 03] 
-    temp_matrix[3][i] = mul11[BLOCK_ACCESS_COL(block, 0, i)] ^ mul13[BLOCK_ACCESS_COL(block, 1, i)] ^ mul9[BLOCK_ACCESS_COL(block, 2, i)] ^ mul14[BLOCK_ACCESS_COL(block, 3, i)]; // row 3  [03, 01, 01, 02] 
+
+    unsigned char b0 = BLOCK_ACCESS_COL(block, 0, i); // byte 0
+    unsigned char b1 = BLOCK_ACCESS_COL(block, 1, i); // byte 1
+    unsigned char b2 = BLOCK_ACCESS_COL(block, 2, i); // byte 2
+    unsigned char b3 = BLOCK_ACCESS_COL(block, 3, i); // byte 3
+
+    temp_matrix[0][i] = mul14[b0] ^ mul11[b1] ^ mul13[b2] ^ mul9[b3]; // row 0, col 0  *  [14, 11, 13, 09]                 
+    temp_matrix[1][i] = mul9[b0] ^ mul14[b1] ^ mul11[b2] ^ mul13[b3]; // row 1, col 0  *  [09, 14, 11, 13] 
+    temp_matrix[2][i] = mul13[b0] ^ mul9[b1] ^ mul14[b2] ^ mul11[b3]; // row 2, col 0  *  [13, 09, 14, 11] 
+    temp_matrix[3][i] = mul11[b0] ^ mul13[b1] ^ mul9[b2] ^ mul14[b3]; // row 3, col 0  *  [11, 13, 09, 14] 
   }
 
   for (int row = 0; row < 4; row++) {
@@ -319,12 +327,9 @@ void invert_mix_columns(unsigned char *block) {
  * This operation is shared between encryption and decryption
  */
 void add_round_key(unsigned char *block, unsigned char *round_key) {
-  int i;
-  // Loops over each byte in the 16-byte block
-  for (i = 0; i < BLOCK_SIZE; i++) {
-    // each block byte is XORed with the corresponding round key byte
-    block[i] ^= round_key[i]; 
-}
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    block[i] ^= round_key[i]; // each block byte is XORed with the corresponding round key byte
+  }
 }
 
 
@@ -335,7 +340,7 @@ void add_round_key(unsigned char *block, unsigned char *round_key) {
 * - https://www.samiam.org/key-schedule.html
 */
 
-// Circular left shift - shifts each byte left 1 place
+// 1. Circular left shift - shifts each byte left 1 place
 void rotate_left(unsigned char *word){
   unsigned char temp_byte = word[0]; // temporary store first byte so it doesn't get overwritte
 
@@ -345,14 +350,14 @@ void rotate_left(unsigned char *word){
   word[3] = temp_byte; // last byte is now equal to temp byte due to circular shift
 }
 
-// Map bytes to sbox 
+// 2. Map bytes to sbox 
 void map_to_sbox(unsigned char *word) {
   for (int i = 0; i < 4; i++) {
     word[i] = s_box[word[i]];
   }
 }
 
-// Rcon look up table 
+// 3. Rcon look up table 
 unsigned char rcon[11] = {
   0x8d, // not used (simplifies indexing)
   0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36
@@ -384,7 +389,7 @@ unsigned char *expand_key(unsigned char *cipher_key) {
     expanded_keys[i] = cipher_key[i];
   }
   
-  // instansiate variables
+  // instantiate variables
   int bytes_generated = 16; // The first 16 bytes are the cipher key
   int rcon_index = 1; // rcon index value is set to 1
   unsigned char temp_word[4]; // temporary store previous 4 bytes
@@ -396,13 +401,10 @@ unsigned char *expand_key(unsigned char *cipher_key) {
       temp_word[i] = expanded_keys[i + bytes_generated - 4];
     }
 
-    // Key_expansion_core runs once every 16 bytes
-    // Updates temp_word variable every 16 bytes through
-    // 1. Circular left shifts 
-    // 2. Maps to sbox
-    // 3. XORs first byte with rcon[index]
+    // updates temp_word var every 16 bytes through: 
+    // 1. circular left shift, maps to sbox, XORs first byte with rcon[index]
     if (bytes_generated % 16 == 0) {
-      key_expansion_core(temp_word, rcon_index); 
+      key_expansion_core(temp_word, rcon_index); // Key_expansion_core runs once every 16 bytes
       rcon_index++; 
     }
 
@@ -419,8 +421,11 @@ unsigned char *expand_key(unsigned char *cipher_key) {
 }
 
 /*
- * The implementations of the functions declared in the
- * header file should go here
+ * Encrypts 16 byte block of plaintext with 16 byte key
+ * 1. Expands key
+ * 2. Adds initial round key
+ * 3. Performs 9 rounds of encryption: sub-bytes, shift-rows, mix-cols, add-round-key
+ * 4. Final round of excryption exluding mixcolumn
  */
 unsigned char *aes_encrypt_block(unsigned char *plaintext, unsigned char *key) {
 
@@ -435,9 +440,9 @@ unsigned char *aes_encrypt_block(unsigned char *plaintext, unsigned char *key) {
   
   // 9 Rounds of encryption
   for (int i = 1; i < 10; i++) {
-    sub_bytes(output); 
-    shift_rows(output);
-    mix_columns(output);
+    sub_bytes(output); // map sub-bytes to sbox
+    shift_rows(output); // shift row bytes left
+    mix_columns(output); // mix up columns
     add_round_key(output, expanded_key + (16 * i ));
   }
 
@@ -449,6 +454,13 @@ unsigned char *aes_encrypt_block(unsigned char *plaintext, unsigned char *key) {
   return output;
 }
 
+/*
+ * Decrypts 16 byte block of ciphertext with 16 byte key
+ * 1. Expands key
+ * 2. Adds initial round key
+ * 3. Performs 9 rounds of decryption: inverse shift-rows, inverse sub-bytes, add round-key, inverse mix-col
+ * 4. Final round of excryption exluding inverse mix-col
+ */
 unsigned char *aes_decrypt_block(unsigned char *ciphertext, unsigned char *key) {
 
   unsigned char *expanded_key = expand_key(key); // key expansion
@@ -463,13 +475,13 @@ unsigned char *aes_decrypt_block(unsigned char *ciphertext, unsigned char *key) 
 
   // 9 Rounds of decryption
   for (int i = 9; i > 0; i--) {
-    invert_shift_rows(output);
-    invert_sub_bytes(output); 
+    invert_shift_rows(output); // map sub-bytes to inverse sbox
+    invert_sub_bytes(output); // shift row bytes right
     add_round_key(output, expanded_key + (16 * i));
-    invert_mix_columns(output);
+    invert_mix_columns(output); // reverse column mix-up
   }
 
-  // Final Round
+ // Final Round (exludes mix column)
   invert_shift_rows(output);
   invert_sub_bytes(output);
   add_round_key(output, expanded_key); // add_round_key with first round key from encryption process
