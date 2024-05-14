@@ -25,7 +25,7 @@ The following is a high level description of the three main Rijndael AES encrypt
 - The current byte value of the block acts as the S-Box to get the new byte value.
 </br></br></br>
 ![sub-bytes](/readme_images/sub-byte.png)
-
+</br></br></br>
 #### Shift-Rows Encryption:
 - Each byte of each row is shifted to the left (except for the first row).
 - This implmentation simplifies calculations through Galois multiplication lookup tables and XOR operations
@@ -40,6 +40,6 @@ The following is a high level description of the three main Rijndael AES encrypt
 #### Mix-Columns Encryption:
 - Transforms the matrix, column by column
 - Each byte of each column is transformed through Matrix multiplication in Rijndael's Galois field
-- This method is simpthrough the use of Galois multiplication lookup tables and XOR operations
+- This projects simplifies calculations through the use of Galois multiplication lookup tables and XOR operations
   </br></br></br>
 ![sub-bytes](/readme_images/mix-column.png)
