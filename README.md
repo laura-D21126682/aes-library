@@ -15,3 +15,31 @@ Key references:
 3. Rijndael Mixcolumns, Wikipedia, Feb. 06. 2024. [Available Online]( https://en.wikipedia.org/wiki/Rijndael_MixColumns)
     - Galois Multiplication lookup tables used in this project are available here
 4. Forma Estudio, “Rijndael (AES) Animation”, Forma Estudio, 2004. [Available Online](https://formaestudio.com/portfolio/aes-animation/)
+   </br></br></br>
+
+
+## Main Encryption Stages:
+The following is a high level description of the three main Rijndael AES encryption functions as implemented in this project:
+#### Sub-Bytes Encryption:
+- Each byte value in a block is substituted with a corresponding S-box lookup value.
+- The current byte value of the block acts as the S-Box to get the new byte value.
+</br></br></br>
+![sub-bytes](/readme_images/sub-byte.png)
+
+#### Shift-Rows Encryption:
+- Each byte of each row is shifted to the left (except for the first row).
+- This implmentation simplifies calculations through Galois multiplication lookup tables and XOR operations
+- First row: no shift
+- Second row: Shift left 1 position
+- Third row: Shift left 2 positions
+- Fourth row: Shift left 3 positions
+   </br></br></br>
+![sub-bytes](/readme_images/shift-row.png)
+   </br></br></br>
+
+#### Mix-Columns Encryption:
+- Transforms the matrix, column by column
+- Each byte of each column is transformed through Matrix multiplication in Rijndael's Galois field
+- This method is simpthrough the use of Galois multiplication lookup tables and XOR operations
+  </br></br></br>
+![sub-bytes](/readme_images/mix-column.png)
